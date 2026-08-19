@@ -75,7 +75,7 @@ export class DiceRenderer {
     }, 550);
   }
 
-  public update(dice: DiceState, isHumanTurn: boolean, isAiThinking: boolean): void {
+  public update(dice: DiceState, isHumanTurn: boolean, isAiThinking: boolean, phase: string = 'waiting_roll'): void {
     if (!this.cubeEl) return;
 
     if (!dice.isRolling) {
@@ -86,8 +86,13 @@ export class DiceRenderer {
       this.setLocked(true);
       this.setHint('Computer Thinking...', 'text-amber-400');
     } else if (isHumanTurn) {
-      this.setLocked(false);
-      this.setHint('Your Turn : Roll Dice', 'text-emerald-400 font-black');
+      if (phase === 'selecting_move') {
+        this.setLocked(true);
+        this.setHint('Select Token To Move', 'text-rose-400 font-black animate-pulse');
+      } else {
+        this.setLocked(false);
+        this.setHint('Your Turn : Roll Dice', 'text-emerald-400 font-black');
+      }
     } else {
       this.setLocked(true);
       this.setHint('Opponent Turn', 'text-zinc-500');

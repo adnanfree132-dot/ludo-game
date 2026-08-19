@@ -67,7 +67,6 @@ const COLOR_MAP: Record<PlayerColor, { main: string; light: string; glow: string
 export class BoardRenderer {
   private containerEl: HTMLElement;
   private onTokenClickCallback: ((tokenId: string) => void) | null = null;
-  private hoveredTokenId: string | null = null;
 
   constructor(containerId: string) {
     const el = document.getElementById(containerId);
@@ -84,7 +83,6 @@ export class BoardRenderer {
    */
   public render(state: Readonly<GameState>): void {
     const theme = THEME_PALETTES[state.theme || 'obsidian'];
-    const projectedTargetTile = this.getProjectedTargetTile(state);
 
     this.containerEl.innerHTML = `
       <svg viewBox="0 0 1500 1500" class="w-full h-full rounded-3xl select-none filter drop-shadow-2xl" xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +110,7 @@ export class BoardRenderer {
         ${this.renderHomeBases(theme)}
 
         <!-- 52 Track Tiles & Home Paths -->
-        ${this.renderTrackTiles(theme, projectedTargetTile)}
+        ${this.renderTrackTiles(theme)}
 
         <!-- Center Victory Podium Zone -->
         ${this.renderCenterVictoryZone()}
@@ -164,7 +162,7 @@ export class BoardRenderer {
     `;
   }
 
-  private renderTrackTiles(theme: ThemePalette, projectedTile: { x: number; y: number; color: string } | null): string {
+  private renderTrackTiles(theme: ThemePalette): string {
     let tiles = '';
 
     // Render 52 main outer track tiles
@@ -204,12 +202,9 @@ export class BoardRenderer {
         icon = '★';
       }
 
-      // Check if this tile is the projected target landing tile
-      const isProjected = projectedTile && projectedTile.x === coord.x && projectedTile.y === coord.y;
-
       tiles += `
-        <g transform="translate(${x}, ${y})">
-          <rect width="96" height="96" rx="16" fill="${isProjected ? projectedTile.color : tileBg}" stroke="${isProjected ? '#ffffff' : border}" stroke-width="${isProjected ? 3.5 : strokeWidth}" fill-opacity="${isProjected ? 0.95 : 0.9}" />
+        <g id="tile-${coord.x}-${coord.y}" transform="translate(${x}, ${y})">
+          <rect id="tile-rect-${coord.x}-${coord.y}" width="96" height="96" rx="16" fill="${tileBg}" stroke="${border}" stroke-width="${strokeWidth}" fill-opacity="0.9" />
           ${icon ? `<text x="48" y="58" font-size="24" font-weight="bold" fill="${border}" text-anchor="middle">${icon}</text>` : ''}
         </g>
       `;
@@ -223,11 +218,10 @@ export class BoardRenderer {
 
       for (let i = 0; i < 5; i++) {
         const coord = coords[i];
-        const isProjected = projectedTile && projectedTile.x === coord.x && projectedTile.y === coord.y;
 
         pathSvg += `
-          <g transform="translate(${coord.x * 100 + 2}, ${coord.y * 100 + 2})">
-            <rect width="96" height="96" rx="16" fill="${isProjected ? '#ffffff' : c.main}" stroke="${c.light}" stroke-width="${isProjected ? 3.5 : 2}" fill-opacity="${isProjected ? 0.95 : 0.85}" />
+          <g id="tile-${coord.x}-${coord.y}" transform="translate(${coord.x * 100 + 2}, ${coord.y * 100 + 2})">
+            <rect id="tile-rect-${coord.x}-${coord.y}" width="96" height="96" rx="16" fill="${c.main}" stroke="${c.light}" stroke-width="2" fill-opacity="0.85" />
             <circle cx="48" cy="48" r="7" fill="#ffffff" fill-opacity="0.8" />
           </g>
         `;
@@ -268,34 +262,92 @@ export class BoardRenderer {
     let tokensSvg = '';
     const activePlayer = state.players[state.activePlayerIndex];
 
+    // Build map to detect multiple tokens sharing the same cell and offset them cleanly
+    const cellTokenMap = new Map<string, Token[]>();
+
+    for (const player of state.players) {
+      for (const token of player.tokens) {
+        const cellKey = token.state === 'base' || token.stepCount === -1
+          ? `base-${token.color}-${token.tokenIndex}`
+          : token.state === 'track' && token.globalPos !== null
+          ? `track-${token.globalPos}`
+          : token.state === 'home_path'
+          ? `home-${token.color}-${token.stepCount}`
+          : `center-${token.color}`;
+
+        if (!cellTokenMap.has(cellKey)) {
+          cellTokenMap.set(cellKey, []);
+        }
+        cellTokenMap.get(cellKey)!.push(token);
+      }
+    }
+
     for (const player of state.players) {
       const c = COLOR_MAP[player.color];
 
       player.tokens.forEach((token) => {
-        const { x, y } = this.getTokenPixelCoordinates(token);
-        const isEligible = activePlayer && activePlayer.index === player.index && token.isEligible && state.phase === 'selecting_move';
+        const baseCoord = this.getTokenPixelCoordinates(token);
+        const cellKey = token.state === 'base' || token.stepCount === -1
+          ? `base-${token.color}-${token.tokenIndex}`
+          : token.state === 'track' && token.globalPos !== null
+          ? `track-${token.globalPos}`
+          : token.state === 'home_path'
+          ? `home-${token.color}-${token.stepCount}`
+          : `center-${token.color}`;
+
+        const tokensInCell = cellTokenMap.get(cellKey) || [];
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (tokensInCell.length > 1 && token.state !== 'base') {
+          const indexInCell = tokensInCell.indexOf(token);
+          const count = tokensInCell.length;
+          if (count === 2) {
+            offsetX = indexInCell === 0 ? -12 : 12;
+            offsetY = indexInCell === 0 ? -12 : 12;
+          } else if (count === 3) {
+            const angle = (indexInCell * 2 * Math.PI) / 3;
+            offsetX = Math.round(Math.cos(angle) * 14);
+            offsetY = Math.round(Math.sin(angle) * 14);
+          } else {
+            const offsets = [
+              { x: -14, y: -14 },
+              { x: 14, y: -14 },
+              { x: -14, y: 14 },
+              { x: 14, y: 14 },
+            ];
+            offsetX = offsets[indexInCell % 4].x;
+            offsetY = offsets[indexInCell % 4].y;
+          }
+        }
+
+        const x = baseCoord.x + offsetX;
+        const y = baseCoord.y + offsetY;
+        const isEligible = Boolean(activePlayer && activePlayer.index === player.index && token.isEligible && state.phase === 'selecting_move');
 
         tokensSvg += `
-          <g id="token-elem-${token.id}" data-token-id="${token.id}" transform="translate(${x}, ${y})" class="token-piece ${isEligible ? 'eligible' : ''}" style="cursor: ${isEligible ? 'pointer' : 'default'}">
-            <!-- Shadow Halo -->
-            <circle cx="0" cy="0" r="32" fill="#000000" fill-opacity="0.45" />
+          <g id="token-elem-${token.id}" data-token-id="${token.id}" transform="translate(${x}, ${y})" class="token-piece" style="cursor: ${isEligible ? 'pointer' : 'default'}">
+            <g class="token-body ${isEligible ? 'eligible' : ''}">
+              <!-- Shadow Halo -->
+              <circle cx="0" cy="0" r="32" fill="#000000" fill-opacity="0.45" />
 
-            <!-- Luminous Token Outer Ring -->
-            <circle cx="0" cy="0" r="30" fill="${c.main}" stroke="#ffffff" stroke-width="3" filter="url(#token-elevation)" />
+              <!-- Luminous Token Outer Ring -->
+              <circle cx="0" cy="0" r="30" fill="${c.main}" stroke="#ffffff" stroke-width="3" filter="url(#token-elevation)" />
 
-            <!-- Inner Bevel Glass Layer -->
-            <circle cx="0" cy="0" r="21" fill="${c.light}" fill-opacity="0.4" />
-            <circle cx="0" cy="0" r="14" fill="#ffffff" fill-opacity="0.95" />
-            <circle cx="0" cy="0" r="8" fill="${c.dark}" />
+              <!-- Inner Bevel Glass Layer -->
+              <circle cx="0" cy="0" r="21" fill="${c.light}" fill-opacity="0.4" />
+              <circle cx="0" cy="0" r="14" fill="#ffffff" fill-opacity="0.95" />
+              <circle cx="0" cy="0" r="8" fill="${c.dark}" />
 
-            <!-- Selection / Elegibility Pulse Ring -->
-            ${
-              isEligible
-                ? `
-              <circle cx="0" cy="0" r="38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6,4" class="animate-spin-slow" />
-            `
-                : ''
-            }
+              <!-- Selection / Eligibility Pulse Ring -->
+              ${
+                isEligible
+                  ? `
+                <circle cx="0" cy="0" r="38" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6,4" class="animate-spin-slow" />
+              `
+                  : ''
+              }
+            </g>
           </g>
         `;
       });
@@ -307,7 +359,7 @@ export class BoardRenderer {
   private getTokenPixelCoordinates(token: Token): { x: number; y: number } {
     if (token.state === 'base' || token.stepCount === -1) {
       const slot = BASE_YARD_SLOTS[token.color][token.tokenIndex];
-      return { x: slot.x * 100 + 50, y: slot.y * 100 + 50 };
+      return { x: slot.x, y: slot.y };
     }
 
     if (token.state === 'track' && token.globalPos !== null) {
@@ -331,34 +383,36 @@ export class BoardRenderer {
     return centerOffsets[token.color];
   }
 
-  private getProjectedTargetTile(state: Readonly<GameState>): { x: number; y: number; color: string } | null {
-    if (!this.hoveredTokenId || state.phase !== 'selecting_move') return null;
-
+  private highlightTargetTile(state: Readonly<GameState>, tokenId: string): void {
     const activePlayer = state.players[state.activePlayerIndex];
-    if (!activePlayer) return null;
+    if (!activePlayer) return;
 
-    const token = activePlayer.tokens.find((t) => t.id === this.hoveredTokenId);
-    if (!token || !token.isEligible) return null;
+    const token = activePlayer.tokens.find((t) => t.id === tokenId);
+    if (!token || !token.isEligible) return;
 
     const targetStep = calculateTargetStep(token, state.dice.currentValue);
-    const c = COLOR_MAP[token.color];
+    let targetCoord: { x: number; y: number } | null = null;
 
     if (targetStep === 0 || (targetStep > 0 && targetStep <= 50)) {
       const startOffset = START_OFFSETS[token.color];
       const targetGlobal = (startOffset + targetStep) % 52;
-      const coord = TRACK_COORDINATES[targetGlobal];
-      return { x: coord.x, y: coord.y, color: c.main };
+      targetCoord = TRACK_COORDINATES[targetGlobal];
+    } else if (targetStep >= 51 && targetStep <= 55) {
+      const pathIdx = targetStep - 51;
+      targetCoord = HOME_PATH_COORDINATES[token.color][pathIdx];
     }
 
-    if (targetStep >= 51 && targetStep <= 56) {
-      const pathIdx = targetStep - 51;
-      if (pathIdx < 5) {
-        const coord = HOME_PATH_COORDINATES[token.color][pathIdx];
-        return { x: coord.x, y: coord.y, color: c.main };
+    if (targetCoord) {
+      const rectEl = document.getElementById(`tile-rect-${targetCoord.x}-${targetCoord.y}`);
+      if (rectEl) {
+        rectEl.classList.add('projected-tile-highlight');
       }
     }
+  }
 
-    return null;
+  private clearTargetHighlight(): void {
+    const highlighted = this.containerEl.querySelectorAll('.projected-tile-highlight');
+    highlighted.forEach((el) => el.classList.remove('projected-tile-highlight'));
   }
 
   private bindTokenEvents(state: Readonly<GameState>): void {
@@ -373,19 +427,18 @@ export class BoardRenderer {
 
       tokenEl.addEventListener('click', (e) => {
         e.stopPropagation();
+        this.clearTargetHighlight();
         if (this.onTokenClickCallback) {
           this.onTokenClickCallback(token.id);
         }
       });
 
       tokenEl.addEventListener('mouseenter', () => {
-        this.hoveredTokenId = token.id;
-        this.render(state);
+        this.highlightTargetTile(state, token.id);
       });
 
       tokenEl.addEventListener('mouseleave', () => {
-        this.hoveredTokenId = null;
-        this.render(state);
+        this.clearTargetHighlight();
       });
     });
   }

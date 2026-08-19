@@ -426,7 +426,7 @@ class LudoApp {
     const isAiThinking = activePlayer && activePlayer.slotType === 'ai_bot';
 
     this.boardUI.render(state);
-    this.diceUI.update(state.dice, Boolean(isHumanTurn), Boolean(isAiThinking));
+    this.diceUI.update(state.dice, Boolean(isHumanTurn), Boolean(isAiThinking), state.phase);
     this.turnUI.update(state);
   }
 

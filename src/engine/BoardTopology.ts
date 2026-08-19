@@ -98,23 +98,23 @@ export const HOME_PATH_COORDINATES: Record<PlayerColor, { x: number; y: number }
 };
 
 /**
- * Base Yard 4-slot coordinate positions per color on 15x15 grid
+ * Base Yard 4-slot pixel coordinate positions per color (exact dock centers on 1500x1500 board)
  */
 export const BASE_YARD_SLOTS: Record<PlayerColor, { x: number; y: number }[]> = {
   red: [
-    { x: 1.8, y: 1.8 }, { x: 3.8, y: 1.8 },
-    { x: 1.8, y: 3.8 }, { x: 3.8, y: 3.8 }
+    { x: 180, y: 180 }, { x: 420, y: 180 },
+    { x: 180, y: 420 }, { x: 420, y: 420 }
   ],
   green: [
-    { x: 10.8, y: 1.8 }, { x: 12.8, y: 1.8 },
-    { x: 10.8, y: 3.8 }, { x: 12.8, y: 3.8 }
+    { x: 1080, y: 180 }, { x: 1320, y: 180 },
+    { x: 1080, y: 420 }, { x: 1320, y: 420 }
   ],
   yellow: [
-    { x: 10.8, y: 10.8 }, { x: 12.8, y: 10.8 },
-    { x: 10.8, y: 12.8 }, { x: 12.8, y: 12.8 }
+    { x: 1080, y: 1080 }, { x: 1320, y: 1080 },
+    { x: 1080, y: 1320 }, { x: 1320, y: 1320 }
   ],
   blue: [
-    { x: 1.8, y: 10.8 }, { x: 3.8, y: 10.8 },
-    { x: 1.8, y: 12.8 }, { x: 3.8, y: 12.8 }
+    { x: 180, y: 1080 }, { x: 420, y: 1080 },
+    { x: 180, y: 1320 }, { x: 420, y: 1320 }
   ]
 };
