@@ -264,6 +264,9 @@ body {
 /* -------------------------------------------------------------------------
    Board Viewport & Scaling
    ------------------------------------------------------------------------- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 .board-wrapper {
   background: radial-gradient(circle at 50% 50%, rgba(24, 24, 32, 0.9), rgba(12, 12, 16, 0.95));
   box-shadow: 
@@ -273,15 +276,21 @@ body {
 }
 
 #board-viewport {
-  width: min(88vw, 68vh, 520px);
-  height: min(88vw, 68vh, 520px);
+  width: min(94vw, calc(100dvh - 195px), 480px);
+  height: min(94vw, calc(100dvh - 195px), 480px);
   aspect-ratio: 1 / 1;
 }
 
 @media (min-width: 768px) {
   #board-viewport {
-    width: min(54vw, 64vh, 530px);
-    height: min(54vw, 64vh, 530px);
+    width: min(52vw, calc(100dvh - 180px), 530px);
+    height: min(52vw, calc(100dvh - 180px), 530px);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --dice-size: 42px;
   }
 }
 
@@ -484,12 +493,21 @@ body {
 .modal-card {
   background: #121217;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 28px;
-  padding: 24px;
-  max-width: 520px;
+  border-radius: 22px;
+  padding: 16px;
+  max-width: min(94vw, 520px);
+  max-height: 90dvh;
+  overflow-y: auto;
   width: 100%;
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.9);
   animation: modalEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .modal-card {
+    border-radius: 28px;
+    padding: 24px;
+  }
 }
 
 @keyframes modalEnter {

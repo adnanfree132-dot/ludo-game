@@ -52,27 +52,27 @@ export class DashboardView {
     const winRate = stats.matchesPlayed > 0 ? Math.round((stats.matchesWon / stats.matchesPlayed) * 100) : 0;
 
     this.containerEl.innerHTML = `
-      <div class="w-full max-w-5xl mx-auto px-4 py-6 md:py-10 flex flex-col gap-8">
+      <div class="w-full max-w-5xl mx-auto px-3 sm:px-4 py-4 md:py-8 flex flex-col gap-5 md:gap-8">
         <!-- Hero Header -->
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-6">
-          <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 via-amber-500 to-emerald-500 p-[2px] shadow-lg shadow-rose-500/20">
-              <div class="w-full h-full bg-zinc-950 rounded-[14px] flex items-center justify-center font-black text-xl text-white">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-zinc-800/80 pb-4 sm:pb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-rose-500 via-amber-500 to-emerald-500 p-[2px] shadow-lg shadow-rose-500/20 shrink-0">
+              <div class="w-full h-full bg-zinc-950 rounded-[14px] flex items-center justify-center font-black text-lg sm:text-xl text-white">
                 🎲
               </div>
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h1 class="text-2xl md:text-3xl font-black tracking-tight text-white">LUDO <span class="text-rose-500">PRO</span></h1>
-                <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Realtime</span>
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">LUDO <span class="text-rose-500">PRO</span></h1>
+                <span class="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 font-bold">Realtime</span>
               </div>
-              <p class="text-xs text-zinc-400 font-medium">Smart AI Bots, Local Pass and Play, and Instant P2P Multiplayer</p>
+              <p class="text-[11px] sm:text-xs text-zinc-400 font-medium">Smart AI Bots, Local Pass and Play, and Instant P2P Multiplayer</p>
             </div>
           </div>
 
           <!-- User Stats Badge -->
-          <div class="flex items-center gap-3 bg-zinc-900/80 border border-zinc-800 px-4 py-2 rounded-2xl backdrop-blur-md">
-            <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-black text-sm">
+          <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-3 bg-zinc-900/80 border border-zinc-800 px-3.5 py-2 rounded-2xl backdrop-blur-md">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-black text-xs sm:text-sm shrink-0">
               👑
             </div>
             <div>
@@ -80,7 +80,7 @@ export class DashboardView {
                 <span>Champion</span>
                 <span class="text-[10px] text-emerald-400 font-mono font-bold">${winRate}% Win Rate</span>
               </div>
-              <div class="text-[11px] text-zinc-400 font-mono">${stats.matchesWon} Won / ${stats.matchesPlayed} Matches</div>
+              <div class="text-[10px] sm:text-[11px] text-zinc-400 font-mono">${stats.matchesWon} Won / ${stats.matchesPlayed} Matches</div>
             </div>
           </div>
         </div>
@@ -91,14 +91,14 @@ export class DashboardView {
             <span>Select Game Mode</span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
             <!-- Mode 1: Solo vs Smart AI -->
-            <div class="mode-card group relative bg-zinc-900/70 hover:bg-zinc-900 border border-zinc-800 hover:border-rose-500/50 rounded-3xl p-5 flex flex-col justify-between transition-all shadow-xl backdrop-blur-md">
-              <div class="mb-4">
-                <div class="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-xl mb-3 text-rose-400">
+            <div class="mode-card group relative bg-zinc-900/70 hover:bg-zinc-900 border border-zinc-800 hover:border-rose-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between transition-all shadow-xl backdrop-blur-md">
+              <div class="mb-3 sm:mb-4">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-lg sm:text-xl mb-2 sm:mb-3 text-rose-400">
                   🤖
                 </div>
-                <h3 class="text-lg font-bold text-white tracking-tight mb-1">Solo vs Smart AI</h3>
+                <h3 class="text-base sm:text-lg font-bold text-white tracking-tight mb-1">Solo vs Smart AI</h3>
                 <p class="text-xs text-zinc-400 leading-relaxed">Challenge adaptive bots powered by positional and strategic heuristics.</p>
               </div>
 
@@ -140,12 +140,12 @@ export class DashboardView {
             </div>
 
             <!-- Mode 2: Pass and Play (Local) -->
-            <div class="mode-card group relative bg-zinc-900/70 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 rounded-3xl p-5 flex flex-col justify-between transition-all shadow-xl backdrop-blur-md">
-              <div class="mb-4">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-xl mb-3 text-emerald-400">
+            <div class="mode-card group relative bg-zinc-900/70 hover:bg-zinc-900 border border-zinc-800 hover:border-emerald-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between transition-all shadow-xl backdrop-blur-md">
+              <div class="mb-3 sm:mb-4">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-lg sm:text-xl mb-2 sm:mb-3 text-emerald-400">
                   👥
                 </div>
-                <h3 class="text-lg font-bold text-white tracking-tight mb-1">Pass and Play</h3>
+                <h3 class="text-base sm:text-lg font-bold text-white tracking-tight mb-1">Pass and Play</h3>
                 <p class="text-xs text-zinc-400 leading-relaxed">Turn based local multiplayer on one screen for friends and family.</p>
               </div>
 
@@ -165,7 +165,7 @@ export class DashboardView {
                   </div>
                 </div>
 
-                <div class="p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-800 text-[11px] text-zinc-400">
+                <div class="p-2 sm:p-2.5 rounded-xl bg-zinc-950/80 border border-zinc-800 text-[10.5px] sm:text-[11px] text-zinc-400">
                   <span>Each player takes turns rolling on this device. Fully customizable color seats!</span>
                 </div>
 
@@ -176,12 +176,12 @@ export class DashboardView {
             </div>
 
             <!-- Mode 3: Realtime Online Rooms -->
-            <div class="mode-card group relative bg-zinc-900/70 hover:bg-zinc-900 border border-zinc-800 hover:border-blue-500/50 rounded-3xl p-5 flex flex-col justify-between transition-all shadow-xl backdrop-blur-md">
-              <div class="mb-4">
-                <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-xl mb-3 text-blue-400">
+            <div class="mode-card group relative bg-zinc-900/70 hover:bg-zinc-900 border border-zinc-800 hover:border-blue-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between transition-all shadow-xl backdrop-blur-md">
+              <div class="mb-3 sm:mb-4">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-lg sm:text-xl mb-2 sm:mb-3 text-blue-400">
                   🌐
                 </div>
-                <h3 class="text-lg font-bold text-white tracking-tight mb-1">Online P2P Match</h3>
+                <h3 class="text-base sm:text-lg font-bold text-white tracking-tight mb-1">Online P2P Match</h3>
                 <p class="text-xs text-zinc-400 leading-relaxed">Zero server lag WebRTC rooms. Share 6-character code or link.</p>
               </div>
 
@@ -192,7 +192,7 @@ export class DashboardView {
                 </button>
 
                 <div class="flex items-center gap-2">
-                  <input id="input-join-code" type="text" maxlength="6" placeholder="ROOM CODE" class="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-center font-mono font-bold text-xs uppercase text-white placeholder:text-zinc-600 focus:border-blue-500 outline-none" />
+                  <input id="input-join-code" type="text" maxlength="6" placeholder="ROOM CODE" class="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-center font-mono font-bold text-sm uppercase text-white placeholder:text-zinc-600 focus:border-blue-500 outline-none" />
                   <button id="btn-join-online" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold text-xs border border-zinc-700 active:scale-95 transition-all shrink-0">
                     JOIN
                   </button>
@@ -203,28 +203,28 @@ export class DashboardView {
         </div>
 
         <!-- Bento Grid: Stats and Themes -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           <!-- Career Stats Card -->
-          <div class="md:col-span-2 bg-zinc-900/60 border border-zinc-800 rounded-3xl p-5">
-            <div class="text-xs font-mono uppercase tracking-widest text-zinc-400 font-bold mb-4 flex items-center justify-between">
+          <div class="md:col-span-2 bg-zinc-900/60 border border-zinc-800 rounded-2xl sm:rounded-3xl p-4 sm:p-5">
+            <div class="text-xs font-mono uppercase tracking-widest text-zinc-400 font-bold mb-3 sm:mb-4 flex items-center justify-between">
               <span>Career Performance</span>
               <span class="text-zinc-500 text-[10px]">Verified Offline Storage</span>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div class="p-3 rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+              <div class="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
                 <div class="text-lg font-black text-rose-400 font-mono">${stats.matchesWon}</div>
                 <div class="text-[10px] text-zinc-400 font-mono mt-0.5">Victories</div>
               </div>
-              <div class="p-3 rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
+              <div class="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
                 <div class="text-lg font-black text-amber-400 font-mono">${stats.tokensCaptured}</div>
                 <div class="text-[10px] text-zinc-400 font-mono mt-0.5">Captures</div>
               </div>
-              <div class="p-3 rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
+              <div class="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
                 <div class="text-lg font-black text-emerald-400 font-mono">${stats.tokensHome}</div>
                 <div class="text-[10px] text-zinc-400 font-mono mt-0.5">Tokens Home</div>
               </div>
-              <div class="p-3 rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
+              <div class="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl bg-zinc-950/70 border border-zinc-800/80">
                 <div class="text-lg font-black text-blue-400 font-mono">${stats.bestStreak}</div>
                 <div class="text-[10px] text-zinc-400 font-mono mt-0.5">Best Streak</div>
               </div>
@@ -232,7 +232,7 @@ export class DashboardView {
           </div>
 
           <!-- Board Theme Selector -->
-          <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-5 flex flex-col justify-between">
+          <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
             <div>
               <div class="text-xs font-mono uppercase tracking-widest text-zinc-400 font-bold mb-3">
                 Board Theme

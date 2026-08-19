@@ -106,13 +106,17 @@ export class TurnIndicator {
     this.mobileStripEl.innerHTML = state.players
       .map((p) => {
         const isActive = p.index === state.activePlayerIndex;
+        const colorVar = p.color;
+
         return `
-          <div id="mobile-player-${p.index}" class="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-semibold backdrop-blur-md transition-all ${
-            isActive ? `bg-zinc-800 text-white border border-${p.color}-500 shadow-md` : 'bg-zinc-900/60 text-zinc-400 border border-zinc-800/80'
-          }">
-            <span>${COLOR_EMOJIS[p.color]}</span>
-            <span class="text-[11px] font-bold">${p.name}</span>
-            <span class="text-[10px] font-mono text-emerald-400 ml-0.5">${p.tokensFinished}/4</span>
+          <div id="mobile-player-${p.index}" class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-semibold backdrop-blur-md transition-all shrink-0 ${
+            isActive
+              ? 'bg-zinc-900 text-white font-bold'
+              : 'bg-zinc-950/70 text-zinc-400 border border-zinc-800/80'
+          }" style="${isActive ? `border: 1.5px solid var(--color-${colorVar}); box-shadow: 0 0 12px var(--color-${colorVar}-glow);` : ''}">
+            <span class="text-xs">${COLOR_EMOJIS[p.color]}</span>
+            <span class="truncate max-w-[60px]">${p.name}</span>
+            <span class="text-[10px] font-mono font-bold text-emerald-400 ml-0.5">${p.tokensFinished}/4</span>
             ${p.finishRank ? `<span class="text-[9px] text-amber-400 font-mono font-bold">#${p.finishRank}</span>` : ''}
           </div>
         `;

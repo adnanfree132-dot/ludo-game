@@ -59,10 +59,10 @@ export class EmoteManager {
    */
   public renderQuickPicker(): string {
     return `
-      <div id="emote-picker-bar" class="flex items-center gap-1.5 p-1.5 bg-zinc-900/90 border border-zinc-800 rounded-2xl shadow-xl backdrop-blur-md">
+      <div id="emote-picker-bar" class="flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 bg-zinc-900/90 border border-zinc-800 rounded-xl sm:rounded-2xl shadow-xl backdrop-blur-md overflow-x-auto no-scrollbar max-w-[170px] sm:max-w-none">
         ${AVAILABLE_EMOTES.map(
           (e) => `
-          <button data-emoji="${e.emoji}" data-label="${e.label}" class="emote-btn w-8 h-8 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 flex items-center justify-center text-base hover:scale-110 active:scale-95 transition-all shadow-sm" title="${e.label}">
+          <button data-emoji="${e.emoji}" data-label="${e.label}" class="emote-btn w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-zinc-800/80 hover:bg-zinc-700 flex items-center justify-center text-xs sm:text-base hover:scale-110 active:scale-95 transition-all shadow-sm shrink-0" title="${e.label}">
             ${e.emoji}
           </button>
         `

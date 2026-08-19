@@ -327,6 +327,9 @@ export class BoardRenderer {
 
         tokensSvg += `
           <g id="token-elem-${token.id}" data-token-id="${token.id}" transform="translate(${x}, ${y})" class="token-piece" style="cursor: ${isEligible ? 'pointer' : 'default'}">
+            <!-- Invisible Touch & Tap Hitbox Target for Mobile -->
+            <circle cx="0" cy="0" r="48" fill="transparent" />
+
             <g class="token-body ${isEligible ? 'eligible' : ''}">
               <!-- Shadow Halo -->
               <circle cx="0" cy="0" r="32" fill="#000000" fill-opacity="0.45" />
