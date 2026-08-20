@@ -100,10 +100,6 @@ class LudoApp {
       this.updateGameModeBadge('online_room');
     });
 
-    this.onlineLobbyUI.onToggleBot((slotIdx) => {
-      this.roomUI.hostToggleSlotBot(slotIdx);
-    });
-
     this.onlineLobbyUI.onReadyToggle((isReady) => {
       this.roomUI.sendReadyToggle(isReady);
     });

@@ -20,7 +20,6 @@ export class OnlineLobbyModal {
   private modalEl: HTMLElement | null = null;
 
   private onStartGameCallback: (() => void) | null = null;
-  private onToggleBotCallback: ((slotIndex: number) => void) | null = null;
   private onReadyToggleCallback: ((isReady: boolean) => void) | null = null;
   private onLeaveRoomCallback: (() => void) | null = null;
 
@@ -36,10 +35,6 @@ export class OnlineLobbyModal {
 
   public onStartGame(cb: () => void): void {
     this.onStartGameCallback = cb;
-  }
-
-  public onToggleBot(cb: (slotIndex: number) => void): void {
-    this.onToggleBotCallback = cb;
   }
 
   public onReadyToggle(cb: (isReady: boolean) => void): void {
@@ -76,6 +71,9 @@ export class OnlineLobbyModal {
   private render(): void {
     if (!this.modalEl) return;
 
+    const connectedCount = this.currentSlots.filter((s) => s.isHost || Boolean(s.peerId)).length;
+    const canLaunch = connectedCount >= 2;
+
     this.modalEl.innerHTML = `
       <div class="flex items-center justify-between mb-4 border-b border-zinc-800 pb-3">
         <div class="flex items-center gap-2.5">
@@ -83,17 +81,17 @@ export class OnlineLobbyModal {
             🌐
           </div>
           <div>
-            <h2 class="text-lg font-black text-white tracking-tight">Online Room Lobby</h2>
-            <p class="text-[11px] text-zinc-400 font-mono">P2P WebRTC Connected</p>
+            <h2 class="text-base sm:text-lg font-black text-white tracking-tight">Online Room Lobby</h2>
+            <p class="text-[10.5px] sm:text-[11px] text-zinc-400 font-mono">P2P Realtime Multiplayer (Real Players Only)</p>
           </div>
         </div>
         <button id="btn-lobby-leave" class="text-xs text-zinc-400 hover:text-rose-400 font-mono px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 transition-colors">
-          Leave Room
+          Leave
         </button>
       </div>
 
       <!-- Room Code Banner -->
-      <div class="mb-5 p-3.5 rounded-2xl bg-zinc-950/80 border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-inner">
+      <div class="mb-4 sm:mb-5 p-3 sm:p-3.5 rounded-2xl bg-zinc-950/80 border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 shadow-inner">
         <div>
           <div class="text-[10px] font-mono uppercase tracking-widest text-zinc-400">Room Code</div>
           <div class="text-2xl font-black text-blue-400 font-mono tracking-widest">${this.currentRoomCode}</div>
@@ -102,57 +100,50 @@ export class OnlineLobbyModal {
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <button id="btn-copy-code" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-bold font-mono transition-all active:scale-95 flex items-center justify-center gap-1.5">
             <span>📋</span>
-            <span>Copy Link</span>
+            <span>Copy Invite Link</span>
           </button>
         </div>
       </div>
 
       <!-- 4 Player Slots Grid -->
-      <div class="mb-5">
+      <div class="mb-4 sm:mb-5">
         <div class="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-bold mb-2.5 flex items-center justify-between">
-          <span>Connected Players (4/4 Seats)</span>
-          <span class="text-emerald-400 text-[10px]">Unfilled seats run by AI</span>
+          <span>Connected Players (${connectedCount}/4)</span>
+          <span class="${canLaunch ? 'text-emerald-400 font-bold' : 'text-amber-400'} text-[10px]">
+            ${canLaunch ? 'Ready to play!' : 'Waiting for at least 1 friend (2-4 players)'}
+          </span>
         </div>
 
-        <div class="grid grid-cols-2 gap-2.5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
           ${this.currentSlots
             .map((slot) => {
               const colorName = COLOR_NAMES[slot.color];
               const emoji = COLOR_EMOJIS[slot.color];
-              const isOccupied = !slot.isBot && slot.name !== 'Waiting...';
+              const isOccupied = slot.isHost || Boolean(slot.peerId);
 
               return `
-              <div class="p-3 rounded-2xl bg-zinc-900/90 border ${
-                isOccupied ? `border-${slot.color}-500/50 shadow-md` : 'border-zinc-800'
-              } flex flex-col justify-between gap-2">
+              <div class="p-2.5 sm:p-3 rounded-2xl bg-zinc-900/90 border ${
+                isOccupied ? 'border-zinc-700 shadow-md' : 'border-zinc-800/60 opacity-60'
+              } flex flex-col justify-between gap-1.5">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
                     <span class="text-lg">${emoji}</span>
                     <div>
                       <div class="text-xs font-bold text-white flex items-center gap-1">
-                        <span>${slot.name}</span>
+                        <span class="truncate max-w-[120px]">${isOccupied ? slot.name : 'Waiting for player...'}</span>
                         ${slot.isHost ? `<span class="text-[9px] px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 font-mono">HOST</span>` : ''}
                       </div>
                       <div class="text-[10px] text-zinc-400 font-mono">${colorName}</div>
                     </div>
                   </div>
-                  <span class="w-2 h-2 rounded-full ${isOccupied ? 'bg-emerald-400' : 'bg-zinc-600'}"></span>
+                  <span class="w-2 h-2 rounded-full ${isOccupied ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-700'}"></span>
                 </div>
 
                 <div class="flex items-center justify-between pt-1 border-t border-zinc-800/60 text-[10px] font-mono">
-                  <span class="${slot.isBot ? 'text-amber-400' : 'text-emerald-400 font-bold'}">
-                    ${slot.isBot ? '🤖 AI Bot' : '🟢 Ready'}
+                  <span class="${isOccupied ? 'text-emerald-400 font-bold' : 'text-zinc-500'}">
+                    ${isOccupied ? (slot.isHost ? '👑 Host' : '🟢 Connected') : '⏳ Open Seat'}
                   </span>
-
-                  ${
-                    this.isHost && !slot.isHost
-                      ? `
-                    <button data-toggle-slot="${slot.playerIndex}" class="btn-toggle-bot text-[10px] px-2 py-0.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition-colors">
-                      ${slot.isBot ? 'Open Seat' : 'Make Bot'}
-                    </button>
-                  `
-                      : ''
-                  }
+                  <span class="text-[9px] text-zinc-500">Seat ${slot.playerIndex + 1}</span>
                 </div>
               </div>
             `;
@@ -162,22 +153,30 @@ export class OnlineLobbyModal {
       </div>
 
       <!-- Action Footer -->
-      <div class="pt-2">
+      <div class="pt-1 sm:pt-2">
         ${
           this.isHost
             ? `
-          <button id="btn-start-online-match" class="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 hover:from-blue-400 hover:to-indigo-400 text-white font-black text-sm shadow-xl shadow-blue-500/25 active:scale-95 transition-all flex items-center justify-center gap-2">
-            <span>🚀</span>
-            <span>LAUNCH MATCH NOW</span>
-          </button>
+          ${
+            canLaunch
+              ? `
+            <button id="btn-start-online-match" class="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 hover:from-blue-400 hover:to-indigo-400 text-white font-black text-sm shadow-xl shadow-blue-500/25 active:scale-95 transition-all flex items-center justify-center gap-2">
+              <span>🚀</span>
+              <span>START MATCH (${connectedCount} PLAYERS)</span>
+            </button>
+          `
+              : `
+            <button disabled class="w-full py-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-zinc-500 font-bold text-xs cursor-not-allowed flex items-center justify-center gap-2">
+              <span>⏳</span>
+              <span>WAITING FOR PLAYERS TO JOIN (NEED 2-4 PLAYERS)</span>
+            </button>
+          `
+          }
         `
             : `
           <div class="flex flex-col gap-2">
-            <button id="btn-toggle-ready" class="w-full py-2.5 rounded-xl ${this.isClientReady ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-zinc-800 text-zinc-400 border border-zinc-700'} font-bold text-xs transition-all">
-              ${this.isClientReady ? '🟢 Ready for Match' : '⚪ Click to Ready'}
-            </button>
-            <div class="p-2 rounded-xl bg-zinc-950 text-center border border-zinc-800 text-[11px] text-zinc-400">
-              <span>Waiting for Host to launch match...</span>
+            <div class="p-2.5 rounded-xl bg-zinc-950 text-center border border-zinc-800 text-[11px] text-zinc-300 font-mono">
+              <span>🟢 Connected! Waiting for Host to start match (${connectedCount}/4 players joined)...</span>
             </div>
           </div>
         `
@@ -214,14 +213,6 @@ export class OnlineLobbyModal {
       this.isClientReady = !this.isClientReady;
       this.render();
       if (this.onReadyToggleCallback) this.onReadyToggleCallback(this.isClientReady);
-    });
-
-    // Host toggle bot buttons
-    document.querySelectorAll('.btn-toggle-bot').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const slotIdx = Number((e.currentTarget as HTMLElement).dataset.toggleSlot);
-        if (this.onToggleBotCallback) this.onToggleBotCallback(slotIdx);
-      });
     });
   }
 }

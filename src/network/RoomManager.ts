@@ -95,15 +95,15 @@ export class RoomManager {
     const peerId = `ludo-room-${rawCode}`;
     this.roomCode = rawCode;
 
-    // Initialize 4 slots: Slot 0 is Host, others start as Bot or Open
+    // Initialize 4 human slots: Slot 0 is Host (You), slots 1..3 are Open Seats waiting for real players
     this.roomSlots = COLOR_ORDER.map((color, idx) => ({
       peerId: idx === 0 ? peerId : '',
       playerIndex: idx,
-      name: idx === 0 ? hostName : `Bot ${idx}`,
+      name: idx === 0 ? hostName : `Waiting for player...`,
       color,
       isHost: idx === 0,
-      isReady: true,
-      isBot: idx !== 0,
+      isReady: idx === 0,
+      isBot: false,
     }));
 
     return new Promise((resolve, reject) => {
@@ -378,8 +378,8 @@ export class RoomManager {
 
   private handleHostIncomingMessage(conn: DataConnection, msg: NetworkMessage): void {
     if (msg.type === 'JOIN_REQUEST') {
-      // Find first available slot (open or replaced bot)
-      const availableSlot = this.roomSlots.find((s, idx) => idx > 0 && (!s.peerId || s.isBot));
+      // Find first empty seat waiting for a human player
+      const availableSlot = this.roomSlots.find((s, idx) => idx > 0 && !s.peerId);
 
       if (!availableSlot) {
         conn.send({
@@ -406,7 +406,7 @@ export class RoomManager {
         timestamp: Date.now(),
       } as NetworkMessage);
 
-      // Broadcast update to all
+      // Broadcast update to all connected players
       this.notifyRoomUpdated();
       this.broadcastRoomUpdate();
     } else if (msg.type === 'PLAYER_READY') {
@@ -436,10 +436,10 @@ export class RoomManager {
     this.connections.delete(peerId);
     const slot = this.roomSlots.find((s) => s.peerId === peerId);
     if (slot) {
-      // Revert to bot so the game can continue seamlessly
       slot.peerId = '';
-      slot.isBot = true;
-      slot.name = `Bot ${slot.playerIndex} (Replaced)`;
+      slot.isBot = false;
+      slot.name = `Waiting for player...`;
+      slot.isReady = false;
       this.notifyRoomUpdated();
       this.broadcastRoomUpdate();
     }
@@ -455,12 +455,13 @@ export class RoomManager {
 
   private broadcastRoomUpdate(): void {
     if (this.role !== 'host') return;
+    const connectedCount = this.roomSlots.filter((s) => s.isHost || Boolean(s.peerId)).length;
     const msg: RoomUpdateMessage = {
       type: 'ROOM_UPDATE',
       senderId: this.peer ? this.peer.id : 'host',
       roomCode: this.roomCode || '',
       slots: this.roomSlots,
-      canStart: true,
+      canStart: connectedCount >= 2,
       timestamp: Date.now(),
     };
     this.broadcast(msg);
@@ -468,28 +469,28 @@ export class RoomManager {
 
   private notifyRoomUpdated(): void {
     if (this.onRoomUpdatedCallback) {
-      this.onRoomUpdatedCallback(this.roomSlots, true, this.roomCode || '');
+      const connectedCount = this.roomSlots.filter((s) => s.isHost || Boolean(s.peerId)).length;
+      this.onRoomUpdatedCallback(this.roomSlots, connectedCount >= 2, this.roomCode || '');
     }
   }
 
   public createOnlineMatchConfig(theme: import('../engine/Types').BoardTheme = 'obsidian'): MatchConfig {
-    const slots = COLOR_ORDER.map((color, idx) => {
-      const roomSlot = this.roomSlots[idx];
-      const isHuman = roomSlot && !roomSlot.isBot && roomSlot.peerId;
-      const type = idx === 0 ? 'local_human' : isHuman ? 'remote_player' : 'ai_bot';
-      const name = roomSlot ? roomSlot.name : `Bot ${idx}`;
+    // Strictly include connected real human players (no bots)
+    const connectedSlots = this.roomSlots.filter((slot) => slot.isHost || Boolean(slot.peerId));
 
+    const slots = connectedSlots.map((roomSlot) => {
+      const type = roomSlot.isHost ? 'local_human' : 'remote_player';
       return {
-        color,
-        name,
-        type: type as 'local_human' | 'remote_player' | 'ai_bot',
-        difficulty: 'strategic' as const,
+        color: roomSlot.color,
+        name: roomSlot.name,
+        type: type as 'local_human' | 'remote_player',
+        difficulty: 'balanced' as const,
       };
     });
 
     return {
       mode: 'online_room',
-      playerCount: 4,
+      playerCount: (slots.length >= 2 ? slots.length : 2) as 2 | 3 | 4,
       theme,
       slots,
     };
