@@ -528,3 +528,184 @@ body {
     animation: none !important;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Executive Bento SaaS Dashboard Theme & Design Tokens
+   ------------------------------------------------------------------------- */
+.dashboard-layout-wrapper {
+  background-color: #f3f4f6;
+  color: #111827;
+  min-height: 100dvh;
+  width: 100%;
+}
+
+.bento-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 4px 14px 0 rgba(0, 0, 0, 0.02);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card:hover {
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.07);
+  border-color: #d1d5db;
+}
+
+.bento-emerald-card {
+  background: linear-gradient(145deg, #064e3b, #022c22);
+  color: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 28px -6px rgba(6, 78, 59, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-emerald-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -6px rgba(6, 78, 59, 0.45);
+}
+
+.wavy-time-card {
+  background: radial-gradient(circle at 100% 0%, #065f46 0%, #064e3b 50%, #022c22 100%);
+  background-image: radial-gradient(circle at 100% 0%, #065f46 0%, #064e3b 50%, #022c22 100%),
+    repeating-radial-gradient(circle at 80% 120%, transparent 0, transparent 15px, rgba(16, 185, 129, 0.12) 15px, rgba(16, 185, 129, 0.12) 17px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  box-shadow: 0 12px 28px -6px rgba(6, 78, 59, 0.35);
+}
+
+.pill-bar-striped {
+  background: repeating-linear-gradient(-45deg, #cbd5e1, #cbd5e1 3px, #f1f5f9 3px, #f1f5f9 7px);
+}
+
+.pill-bar-solid-dark {
+  background: #064e3b;
+}
+
+.pill-bar-solid-mint {
+  background: #34d399;
+}
+
+.bento-btn-primary {
+  background-color: #064e3b;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(6, 78, 59, 0.2);
+  transition: all 0.15s ease;
+}
+
+.bento-btn-primary:hover {
+  background-color: #065f46;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(6, 78, 59, 0.3);
+}
+
+.bento-btn-primary:active {
+  transform: scale(0.97);
+}
+
+.bento-btn-outline {
+  background-color: #ffffff;
+  color: #111827;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bento-btn-outline:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.bento-btn-outline:active {
+  transform: scale(0.97);
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #4b5563;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.sidebar-nav-item:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.sidebar-nav-item.active {
+  background-color: #f3f4f6;
+  color: #111827;
+  font-weight: 700;
+}
+
+.arrow-circle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  color: #111827;
+  background: #ffffff;
+  transition: all 0.15s ease;
+}
+
+.arrow-circle-btn-white {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 13px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  transition: all 0.15s ease;
+}
+
+.custom-donut-slice-1 {
+  stroke: #064e3b;
+  stroke-dasharray: 120, 200;
+}
+
+.custom-donut-slice-2 {
+  stroke: #34d399;
+  stroke-dasharray: 60, 200;
+  stroke-dashoffset: -120;
+}
+
+.custom-donut-slice-3 {
+  stroke: #cbd5e1;
+  stroke-dasharray: 50, 200;
+  stroke-dashoffset: -180;
+}
