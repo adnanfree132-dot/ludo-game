@@ -524,36 +524,40 @@ body {
 }
 
 /* -------------------------------------------------------------------------
-   DONEZO EXECUTIVE BENTO SAAS DASHBOARD THEME & LAYOUT
+   LUDO PRO: LUXURY DARK GAMING BENTO ARENA THEME & LAYOUT
    ------------------------------------------------------------------------- */
 .donezo-app-frame {
-  background-color: #f1f3f5;
+  background-color: #070b12;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.09) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.6) 0%, transparent 100%);
   min-height: 100dvh;
-  padding: 16px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #111827;
+  color: #f8fafc;
   width: 100%;
 }
 
 .donezo-dashboard-card {
   width: 100%;
-  max-width: 1440px;
-  background: #ffffff;
+  max-width: 1460px;
+  background: #0d1424;
   border-radius: 28px;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
   display: flex;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .donezo-sidebar {
-  width: 220px;
-  min-width: 220px;
-  background: #ffffff;
-  border-right: 1px solid #f0f2f5;
+  width: 230px;
+  min-width: 230px;
+  background: #090e1a;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   padding: 28px 16px 20px 20px;
   display: flex;
   flex-direction: column;
@@ -564,24 +568,25 @@ body {
 .donezo-main {
   flex: 1;
   min-width: 0;
-  background: #fbfcfd;
+  background: #0c1220;
   display: flex;
   flex-direction: column;
 }
 
 .donezo-top-bar {
-  padding: 20px 32px 10px 32px;
+  padding: 20px 32px 12px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .donezo-content {
-  padding: 10px 32px 32px 32px;
+  padding: 16px 32px 36px 32px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 /* 4 KPI Top Cards Row */
@@ -622,55 +627,57 @@ body {
   gap: 16px;
 }
 
-/* Bento Card Tokens */
+/* Dark Gaming Bento Card Tokens */
 .bento-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #111a2e;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  overflow: hidden;
 }
 
 .bento-card:hover {
-  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.07);
-  border-color: #cbd5e1;
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.08);
+  border-color: rgba(52, 211, 153, 0.25);
   transform: translateY(-2px);
 }
 
 .bento-emerald-card {
-  background: #114232;
-  background-image: linear-gradient(145deg, #165b45 0%, #114232 50%, #0a2e22 100%);
+  background: #0d281e;
+  background-image: linear-gradient(145deg, #134e3a 0%, #0d281e 60%, #061c14 100%);
   color: #ffffff;
-  border-radius: 20px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 25px -4px rgba(17, 66, 50, 0.4);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 22px;
+  padding: 22px;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  box-shadow: 0 12px 30px -4px rgba(13, 40, 30, 0.6), 0 0 24px rgba(16, 185, 129, 0.2);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  overflow: hidden;
 }
 
 .bento-emerald-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 36px -4px rgba(17, 66, 50, 0.55);
-  border-color: rgba(52, 211, 153, 0.4);
+  box-shadow: 0 18px 40px -4px rgba(13, 40, 30, 0.75), 0 0 32px rgba(16, 185, 129, 0.35);
+  border-color: rgba(52, 211, 153, 0.6);
 }
 
 .gaming-glow-avatar {
   position: relative;
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #10b981, 0 0 16px rgba(16, 185, 129, 0.45);
+  box-shadow: 0 0 0 2px #090e1a, 0 0 0 4px #10b981, 0 0 18px rgba(16, 185, 129, 0.55);
 }
 
 .gaming-mode-card {
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
   padding: 12px 14px;
   display: flex;
@@ -681,82 +688,82 @@ body {
 }
 
 .gaming-mode-card:hover {
-  background: #ffffff;
-  border-color: #10b981;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(52, 211, 153, 0.4);
   transform: translateY(-1.5px);
-  box-shadow: 0 6px 18px -3px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 6px 18px -3px rgba(16, 185, 129, 0.2);
 }
 
 .gaming-play-btn {
-  background: linear-gradient(135deg, #114232 0%, #165b45 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: #ffffff;
   border-radius: 9999px;
-  padding: 6px 16px;
+  padding: 6px 18px;
   font-weight: 800;
   font-size: 11px;
-  letter-spacing: 0.02em;
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  box-shadow: 0 3px 10px rgba(17, 66, 50, 0.25);
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
   transition: all 0.15s ease;
 }
 
 .gaming-play-btn:hover {
-  background: linear-gradient(135deg, #165b45 0%, #10b981 100%);
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
   transform: scale(1.05);
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 6px 20px rgba(52, 211, 153, 0.5);
 }
 
 .wavy-time-card {
-  background: #114232;
-  background-image: radial-gradient(circle at 100% 0%, #1b634c 0%, #114232 60%, #08261c 100%),
+  background: #0d281e;
+  background-image: radial-gradient(circle at 100% 0%, #1a634b 0%, #0d281e 60%, #051811 100%),
     url("data:image/svg+xml,%3Csvg width='400' height='300' viewBox='0 0 400 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 Q 100 60 200 100 T 400 100 L 400 300 L 0 300 Z' fill='none' stroke='rgba(52,211,153,0.22)' stroke-width='2'/%3E%3Cpath d='M0 130 Q 100 90 200 130 T 400 130 L 400 300 L 0 300 Z' fill='none' stroke='rgba(52,211,153,0.26)' stroke-width='2'/%3E%3Cpath d='M0 160 Q 100 120 200 160 T 400 160 L 400 300 L 0 300 Z' fill='none' stroke='rgba(52,211,153,0.30)' stroke-width='2'/%3E%3Cpath d='M0 190 Q 100 150 200 190 T 400 190 L 400 300 L 0 300 Z' fill='none' stroke='rgba(52,211,153,0.34)' stroke-width='2'/%3E%3Cpath d='M0 220 Q 100 180 200 220 T 400 220 L 400 300 L 0 300 Z' fill='none' stroke='rgba(52,211,153,0.38)' stroke-width='2'/%3E%3C/svg%3E");
   background-size: cover;
-  border-radius: 20px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 22px;
+  border: 1px solid rgba(52, 211, 153, 0.25);
   color: #ffffff;
-  box-shadow: 0 10px 25px -4px rgba(17, 66, 50, 0.4);
+  box-shadow: 0 12px 30px -4px rgba(13, 40, 30, 0.6), 0 0 24px rgba(16, 185, 129, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .pill-bar-striped {
-  background: repeating-linear-gradient(-45deg, #cbd5e1, #cbd5e1 3.5px, #f1f5f9 3.5px, #f1f5f9 8px);
-  border: 1px solid #e2e8f0;
+  background: repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08) 3.5px, rgba(255, 255, 255, 0.02) 3.5px, rgba(255, 255, 255, 0.02) 8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pill-bar-solid-dark {
-  background: #114232;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(180deg, #10b981 0%, #047857 100%);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
 }
 
 .pill-bar-solid-mint {
   background: linear-gradient(180deg, #34d399 0%, #059669 100%);
-  box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.6);
 }
 
 .bento-btn-primary {
-  background-color: #114232;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: #ffffff;
   border-radius: 9999px;
-  padding: 10px 22px;
-  font-weight: 700;
+  padding: 10px 24px;
+  font-weight: 800;
   font-size: 13px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(17, 66, 50, 0.25);
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4);
   transition: all 0.15s ease;
 }
 
 .bento-btn-primary:hover {
-  background-color: #165b45;
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(17, 66, 50, 0.35);
+  box-shadow: 0 8px 24px rgba(52, 211, 153, 0.55);
 }
 
 .bento-btn-primary:active {
@@ -764,24 +771,24 @@ body {
 }
 
 .bento-btn-outline {
-  background-color: #ffffff;
-  color: #111827;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
   border-radius: 9999px;
-  padding: 10px 22px;
+  padding: 10px 24px;
   font-weight: 700;
   font-size: 13px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .bento-btn-outline:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .bento-btn-outline:active {
@@ -796,20 +803,21 @@ body {
   border-radius: 12px;
   font-weight: 600;
   font-size: 13.5px;
-  color: #64748b;
+  color: #94a3b8;
   text-decoration: none;
   transition: all 0.15s ease;
   cursor: pointer;
 }
 
 .sidebar-nav-item:hover {
-  background-color: #f1f5f9;
-  color: #111827;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
 }
 
 .sidebar-nav-item.active {
-  background-color: #f1f5f9;
-  color: #111827;
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
   font-weight: 700;
 }
 
@@ -820,10 +828,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   font-size: 13px;
-  color: #111827;
-  background: #ffffff;
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.06);
   transition: all 0.15s ease;
 }
 
@@ -834,10 +842,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   font-size: 13px;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   transition: all 0.15s ease;
 }
 
@@ -869,7 +877,7 @@ body {
     width: 100%;
     min-width: 100%;
     border-right: none;
-    border-bottom: 1px solid #f0f2f5;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 16px;
   }
   .donezo-top-bar {
