@@ -12,7 +12,7 @@ export class DashboardView {
   private selectedTheme: BoardTheme = 'obsidian';
 
   // Stopwatch state
-  private timerSeconds: number = 5048; // 01:24:08 initial sample
+  private timerSeconds: number = 5048; // 01:24:08 initial sample from image
   private timerInterval: any = null;
   private isTimerRunning: boolean = true;
 
@@ -72,77 +72,85 @@ export class DashboardView {
   public render(stats: UserCareerStats): void {
     if (!this.containerEl) return;
 
-    const winRate = stats.matchesPlayed > 0 ? Math.round((stats.matchesWon / stats.matchesPlayed) * 100) : 41;
     const matchesCount = stats.matchesPlayed > 0 ? stats.matchesPlayed : 24;
     const wonCount = stats.matchesWon > 0 ? stats.matchesWon : 10;
     const capturesCount = stats.tokensCaptured > 0 ? stats.tokensCaptured : 12;
     const homeCount = stats.tokensHome > 0 ? stats.tokensHome : 2;
 
     this.containerEl.innerHTML = `
-      <div class="dashboard-layout-wrapper flex flex-col md:flex-row min-h-[100dvh] w-full">
+      <div class="dashboard-layout-wrapper flex flex-col md:flex-row min-h-[100dvh] w-full font-['Plus_Jakarta_Sans'] bg-[#f8fafc]">
         <!-- LEFT SIDEBAR -->
-        <aside class="w-full md:w-64 bg-white border-r border-gray-200/80 p-5 flex flex-col justify-between shrink-0">
-          <div class="flex flex-col gap-6">
+        <aside class="w-full md:w-60 bg-white border-r border-slate-200/80 p-6 flex flex-col justify-between shrink-0">
+          <div class="flex flex-col gap-8">
             <!-- Brand Logo -->
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-full bg-emerald-800 flex items-center justify-center text-white shadow-sm border-2 border-emerald-600/30 font-black text-base">
-                  🎲
-                </div>
-                <div class="flex items-center gap-1">
-                  <span class="text-xl font-extrabold text-gray-900 tracking-tight">Donezo</span>
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                </div>
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full border-2 border-emerald-600 flex items-center justify-center">
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-600"></span>
               </div>
-              <span class="md:hidden text-xs text-gray-400 font-mono">MENU</span>
+              <span class="text-xl font-extrabold text-slate-900 tracking-tight">Donezo</span>
             </div>
 
             <!-- Nav Groups -->
-            <div class="flex flex-col gap-5">
+            <div class="flex flex-col gap-6">
               <!-- MENU -->
               <div>
-                <div class="text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2 px-2">Menu</div>
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-3 px-1">Menu</div>
                 <nav class="flex flex-col gap-1">
                   <a href="#" class="sidebar-nav-item active">
-                    <span class="text-base">📊</span>
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-900">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+                    </span>
                     <span>Dashboard</span>
                   </a>
-                  <a href="#modes-section" class="sidebar-nav-item">
-                    <span class="text-base">🎮</span>
-                    <span>Game Modes</span>
-                    <span class="ml-auto text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full">3</span>
+                  <a href="#projects-section" class="sidebar-nav-item">
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    </span>
+                    <span>Tasks</span>
+                    <span class="ml-auto text-[10px] font-bold bg-slate-900 text-white px-2 py-0.5 rounded-full">12+</span>
                   </a>
                   <a href="#analytics-section" class="sidebar-nav-item">
-                    <span class="text-base">📈</span>
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </span>
+                    <span>Calendar</span>
+                  </a>
+                  <a href="#analytics-section" class="sidebar-nav-item">
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </span>
                     <span>Analytics</span>
                   </a>
-                  <a href="#stats-section" class="sidebar-nav-item">
-                    <span class="text-base">🏆</span>
-                    <span>Career Stats</span>
-                    <span class="ml-auto text-[10px] font-bold bg-gray-100 text-gray-700 px-1.5 py-0.2 rounded-full">12+</span>
-                  </a>
-                  <a href="#squad-section" class="sidebar-nav-item">
-                    <span class="text-base">👥</span>
-                    <span>Opponents</span>
+                  <a href="#team-section" class="sidebar-nav-item">
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <span>Team</span>
                   </a>
                 </nav>
               </div>
 
               <!-- GENERAL -->
               <div>
-                <div class="text-[11px] font-bold text-gray-400 tracking-wider uppercase mb-2 px-2">General</div>
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-3 px-1">General</div>
                 <nav class="flex flex-col gap-1">
                   <a href="#theme-section" class="sidebar-nav-item">
-                    <span class="text-base">🎨</span>
-                    <span>Board Themes</span>
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </span>
+                    <span>Settings</span>
                   </a>
                   <a href="#rules-section" class="sidebar-nav-item" id="nav-rules-btn">
-                    <span class="text-base">📖</span>
-                    <span>Help & Rules</span>
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </span>
+                    <span>Help</span>
                   </a>
-                  <a href="#" class="sidebar-nav-item" id="nav-pwa-btn">
-                    <span class="text-base">📱</span>
-                    <span>Mobile PWA</span>
+                  <a href="#" class="sidebar-nav-item">
+                    <span class="w-5 h-5 flex items-center justify-center text-slate-400">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </span>
+                    <span>Logout</span>
                   </a>
                 </nav>
               </div>
@@ -150,370 +158,360 @@ export class DashboardView {
           </div>
 
           <!-- Bottom Left Promo Card -->
-          <div class="wavy-time-card p-4 rounded-2xl mt-6 hidden md:flex flex-col justify-between gap-3 relative overflow-hidden">
-            <div class="flex items-center gap-2">
-              <span class="text-base">📱</span>
-              <span class="text-xs font-bold text-emerald-200 uppercase tracking-wider">Web App</span>
+          <div class="wavy-time-card p-5 rounded-2xl mt-8 hidden md:flex flex-col justify-between gap-3 relative overflow-hidden">
+            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-xs">
+              📱
             </div>
             <div>
-              <h4 class="text-sm font-bold text-white leading-tight">Play on Mobile Device</h4>
-              <p class="text-[11px] text-emerald-200/80 mt-0.5">Responsive real-time P2P</p>
+              <h4 class="text-sm font-bold text-white leading-tight">Download our Mobile App</h4>
+              <p class="text-[11px] text-emerald-200/80 mt-1">Get easy in another way</p>
             </div>
-            <button id="btn-sidebar-quick-play" class="w-full py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-black text-xs transition-all shadow-md active:scale-95">
-              Launch Now
+            <button id="btn-sidebar-download" class="w-full py-2 rounded-xl bg-[#0f392b] border border-white/20 hover:bg-[#165b45] text-white font-bold text-xs transition-all active:scale-95">
+              Download
             </button>
           </div>
         </aside>
 
         <!-- MAIN CONTENT AREA -->
-        <main class="flex-1 flex flex-col min-w-0 bg-[#f4f5f7]">
+        <main class="flex-1 flex flex-col min-w-0 bg-[#f8fafc]">
           <!-- TOP HEADER BAR -->
-          <header class="w-full bg-white border-b border-gray-200/80 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 sticky top-0 z-20">
-            <!-- Search & Room Code Input -->
+          <header class="w-full bg-white border-b border-slate-200/80 px-6 sm:px-10 py-3.5 flex items-center justify-between gap-4 sticky top-0 z-20">
+            <!-- Search Input -->
             <div class="flex-1 max-w-md relative">
-              <div class="flex items-center bg-gray-100/90 border border-gray-200 rounded-full px-3.5 py-2 text-xs text-gray-800 gap-2 focus-within:border-emerald-600 focus-within:bg-white transition-all shadow-inner">
-                <span class="text-gray-400 text-sm">🔍</span>
-                <input id="input-top-room-code" type="text" maxlength="6" placeholder="Search room code or enter code..." class="bg-transparent outline-none w-full text-xs font-medium placeholder:text-gray-400 uppercase" />
-                <span class="hidden sm:inline text-[10px] font-mono font-bold bg-white text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded shadow-sm">Ctrl+K</span>
+              <div class="flex items-center bg-[#f8fafc] border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-800 gap-2.5 focus-within:border-emerald-600 focus-within:bg-white transition-all">
+                <span class="text-slate-400 text-sm">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+                <input id="input-top-room-code" type="text" maxlength="6" placeholder="Search task or enter room code..." class="bg-transparent outline-none w-full text-xs font-medium placeholder:text-slate-400" />
+                <span class="hidden sm:inline text-[10px] font-mono font-bold bg-white text-slate-400 border border-slate-200 px-1.5 py-0.5 rounded shadow-sm">Ctrl+K</span>
               </div>
             </div>
 
             <!-- Profile & Header Actions -->
-            <div class="flex items-center gap-3">
-              <button id="btn-quick-join-header" class="hidden sm:flex px-3.5 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs border border-gray-200 transition-all">
-                Join
+            <div class="flex items-center gap-4">
+              <!-- Bell Icon -->
+              <button class="w-9 h-9 rounded-full border border-slate-200 hover:bg-slate-50 flex items-center justify-center text-slate-600 transition-colors">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               </button>
 
-              <div class="flex items-center gap-2.5 pl-2 border-l border-gray-200">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-400 to-rose-400 p-[1.5px] shadow-sm">
-                  <div class="w-full h-full rounded-full bg-emerald-900 flex items-center justify-center text-sm font-bold text-white">
-                    👑
-                  </div>
+              <!-- Profile Pill -->
+              <div class="flex items-center gap-2.5 pl-2">
+                <div class="w-8 h-8 rounded-full bg-[#fde047] flex items-center justify-center text-sm shadow-sm overflow-hidden">
+                  👨‍💼
                 </div>
-                <div class="hidden sm:block text-left">
-                  <div class="text-xs font-bold text-gray-900 leading-none">Champion</div>
-                  <div class="text-[10px] text-gray-500 font-mono mt-0.5">${winRate}% Win Rate</div>
+                <div class="hidden sm:block text-left text-xs font-semibold text-slate-700">
+                  tmichael20@gmail.com
                 </div>
               </div>
             </div>
           </header>
 
           <!-- DASHBOARD BODY CONTAINER -->
-          <div class="p-4 sm:p-8 flex flex-col gap-6 max-w-7xl mx-auto w-full">
+          <div class="p-6 sm:p-10 flex flex-col gap-7 max-w-[1400px] mx-auto w-full">
             <!-- PAGE TITLE & HERO ACTIONS -->
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-gray-900">Dashboard</h1>
-                <p class="text-xs sm:text-sm text-gray-500 font-medium mt-0.5">Plan, roll, and conquer the board with ease.</p>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Dashboard</h1>
+                <p class="text-xs sm:text-sm text-slate-500 font-medium mt-1">Plan, prioritize, and accomplish your tasks with ease.</p>
               </div>
 
-              <div class="flex items-center gap-2.5 w-full sm:w-auto">
+              <div class="flex items-center gap-3 w-full sm:w-auto">
                 <button id="btn-hero-host-room" class="bento-btn-primary flex-1 sm:flex-none">
-                  <span class="text-base leading-none">+</span>
-                  <span>Host Room</span>
+                  <span class="text-base leading-none font-bold">+</span>
+                  <span>Add Project</span>
                 </button>
                 <button id="btn-hero-join-room" class="bento-btn-outline flex-1 sm:flex-none">
-                  <span>🌐</span>
-                  <span>Join Match</span>
+                  <span>Import Data</span>
                 </button>
               </div>
             </div>
 
             <!-- ROW 1: 4 TOP KPI METRIC CARDS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="stats-section">
-              <!-- Card 1: Emerald Hero Card (Total Projects / Matches) -->
-              <div class="bento-emerald-card p-5 flex flex-col justify-between gap-3 relative overflow-hidden">
+              <!-- Card 1: Total Projects (Deep Emerald Hero Card) -->
+              <div class="bento-emerald-card p-6 flex flex-col justify-between gap-4 relative overflow-hidden cursor-pointer" id="kpi-card-1">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-emerald-200">Total Matches</span>
+                  <span class="text-sm font-semibold text-white/90">Total Projects</span>
                   <div class="arrow-circle-btn-white">↗</div>
                 </div>
                 <div>
-                  <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-mono">${matchesCount}</div>
-                  <div class="mt-2 flex items-center gap-1.5 text-xs text-emerald-200/90 font-medium">
-                    <span class="px-1.5 py-0.5 rounded bg-emerald-600/50 text-white font-mono text-[10px] font-bold">5+</span>
-                    <span>Increased from last session</span>
+                  <div class="text-4xl font-extrabold text-white tracking-tight font-mono">${matchesCount}</div>
+                  <div class="mt-3 flex items-center gap-1.5 text-xs text-emerald-300 font-medium">
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-bold">5+</span>
+                    <span>Increased from last month</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Card 2: Ended Projects / Victories Won -->
-              <div class="bento-card p-5 flex flex-col justify-between gap-3">
+              <!-- Card 2: Ended Projects -->
+              <div class="bento-card p-6 flex flex-col justify-between gap-4 cursor-pointer" id="kpi-card-2">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-600">Ended Matches</span>
+                  <span class="text-sm font-semibold text-slate-700">Ended Projects</span>
                   <div class="arrow-circle-btn">↗</div>
                 </div>
                 <div>
-                  <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight font-mono">${wonCount}</div>
-                  <div class="mt-2 flex items-center gap-1.5 text-xs text-gray-500 font-medium">
-                    <span class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700 font-mono text-[10px] font-bold">🏆 ${winRate}%</span>
-                    <span>Win Rate Overall</span>
+                  <div class="text-4xl font-extrabold text-slate-900 tracking-tight font-mono">${wonCount}</div>
+                  <div class="mt-3 flex items-center gap-1.5 text-xs text-emerald-600 font-medium">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[11px] font-bold">6+</span>
+                    <span>Increased from last month</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Card 3: Running Projects / Captures -->
-              <div class="bento-card p-5 flex flex-col justify-between gap-3">
+              <!-- Card 3: Running Projects -->
+              <div class="bento-card p-6 flex flex-col justify-between gap-4 cursor-pointer" id="kpi-card-3">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-600">Total Captures</span>
+                  <span class="text-sm font-semibold text-slate-700">Running Projects</span>
                   <div class="arrow-circle-btn">↗</div>
                 </div>
                 <div>
-                  <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight font-mono">${capturesCount}</div>
-                  <div class="mt-2 flex items-center gap-1.5 text-xs text-gray-500 font-medium">
-                    <span class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700 font-mono text-[10px] font-bold">⚡ ${stats.bestStreak || 4}</span>
-                    <span>Best Win Streak</span>
+                  <div class="text-4xl font-extrabold text-slate-900 tracking-tight font-mono">${capturesCount}</div>
+                  <div class="mt-3 flex items-center gap-1.5 text-xs text-emerald-600 font-medium">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-mono text-[11px] font-bold">2+</span>
+                    <span>Increased from last month</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Card 4: Pending Project / Tokens Home -->
-              <div class="bento-card p-5 flex flex-col justify-between gap-3">
+              <!-- Card 4: Pending Project -->
+              <div class="bento-card p-6 flex flex-col justify-between gap-4 cursor-pointer" id="kpi-card-4">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-600">Tokens Home</span>
+                  <span class="text-sm font-semibold text-slate-700">Pending Project</span>
                   <div class="arrow-circle-btn">↗</div>
                 </div>
                 <div>
-                  <div class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight font-mono">${homeCount}</div>
-                  <div class="mt-2 text-xs text-gray-500 font-medium">
-                    <span>On Conquest Track</span>
+                  <div class="text-4xl font-extrabold text-slate-900 tracking-tight font-mono">${homeCount}</div>
+                  <div class="mt-3 text-xs text-slate-500 font-medium">
+                    <span>On Discuss</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- ROW 2: MIDDLE BENTO ROW (Analytics, Reminders, Project Modes) -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4" id="analytics-section">
-              <!-- Pill Bar Chart: Project / Match Analytics (5 cols) -->
-              <div class="bento-card p-5 md:col-span-4 flex flex-col justify-between gap-4">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-900 tracking-tight">Project Analytics</span>
-                  <span class="text-[11px] text-gray-400 font-mono">Weekly</span>
-                </div>
+            <!-- ROW 2: MIDDLE BENTO ROW (Project Analytics, Reminders, Project Tasks) -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-5" id="analytics-section">
+              <!-- Card A: Project Analytics (Pill Bar Chart) (5 cols) -->
+              <div class="bento-card p-6 md:col-span-4 flex flex-col justify-between gap-4">
+                <div class="text-sm font-bold text-slate-900 tracking-tight">Project Analytics</div>
 
-                <!-- Vertical Pill Bars Display -->
-                <div class="flex items-end justify-between h-40 pt-4 px-2">
+                <!-- Pill Bar Chart for days S M T W T F S -->
+                <div class="flex items-end justify-between h-44 pt-6 px-1">
                   <!-- Sunday -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="w-6 h-20 rounded-full pill-bar-striped"></div>
-                    <span class="text-[11px] font-bold text-gray-400 font-mono">S</span>
+                  <div class="flex flex-col items-center gap-2.5">
+                    <div class="w-9 h-24 rounded-full pill-bar-striped"></div>
+                    <span class="text-xs font-semibold text-slate-400">S</span>
                   </div>
                   <!-- Monday -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="w-6 h-28 rounded-full pill-bar-solid-dark"></div>
-                    <span class="text-[11px] font-bold text-gray-400 font-mono">M</span>
+                  <div class="flex flex-col items-center gap-2.5">
+                    <div class="w-9 h-32 rounded-full pill-bar-solid-dark"></div>
+                    <span class="text-xs font-semibold text-slate-400">M</span>
                   </div>
-                  <!-- Tuesday (With Floating 74% Tooltip) -->
-                  <div class="flex flex-col items-center gap-2 relative">
-                    <div class="absolute -top-7 px-1.5 py-0.5 rounded-md bg-gray-900 text-white font-mono text-[9px] font-bold shadow-md">74%</div>
-                    <div class="w-6 h-24 rounded-full pill-bar-solid-mint"></div>
-                    <span class="text-[11px] font-bold text-gray-900 font-mono">T</span>
+                  <!-- Tuesday (with 74% Tooltip) -->
+                  <div class="flex flex-col items-center gap-2.5 relative">
+                    <div class="absolute -top-7 px-2 py-0.5 rounded-full bg-slate-900 text-white font-mono text-[9px] font-bold shadow-md">74%</div>
+                    <div class="w-9 h-28 rounded-full pill-bar-solid-mint"></div>
+                    <span class="text-xs font-bold text-slate-900">T</span>
                   </div>
                   <!-- Wednesday -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="w-6 h-32 rounded-full pill-bar-solid-dark"></div>
-                    <span class="text-[11px] font-bold text-gray-400 font-mono">W</span>
+                  <div class="flex flex-col items-center gap-2.5">
+                    <div class="w-9 h-36 rounded-full pill-bar-solid-dark"></div>
+                    <span class="text-xs font-semibold text-slate-400">W</span>
                   </div>
                   <!-- Thursday -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="w-6 h-16 rounded-full pill-bar-striped"></div>
-                    <span class="text-[11px] font-bold text-gray-400 font-mono">T</span>
+                  <div class="flex flex-col items-center gap-2.5">
+                    <div class="w-9 h-20 rounded-full pill-bar-striped"></div>
+                    <span class="text-xs font-semibold text-slate-400">T</span>
                   </div>
                   <!-- Friday -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="w-6 h-24 rounded-full pill-bar-striped"></div>
-                    <span class="text-[11px] font-bold text-gray-400 font-mono">F</span>
+                  <div class="flex flex-col items-center gap-2.5">
+                    <div class="w-9 h-28 rounded-full pill-bar-striped"></div>
+                    <span class="text-xs font-semibold text-slate-400">F</span>
                   </div>
                   <!-- Saturday -->
-                  <div class="flex flex-col items-center gap-2">
-                    <div class="w-6 h-20 rounded-full pill-bar-striped"></div>
-                    <span class="text-[11px] font-bold text-gray-400 font-mono">S</span>
+                  <div class="flex flex-col items-center gap-2.5">
+                    <div class="w-9 h-24 rounded-full pill-bar-striped"></div>
+                    <span class="text-xs font-semibold text-slate-400">S</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Quick Launch Card: Reminders Style (4 cols) -->
-              <div class="bento-card p-5 md:col-span-4 flex flex-col justify-between gap-4">
+              <!-- Card B: Reminders (4 cols) -->
+              <div class="bento-card p-6 md:col-span-4 flex flex-col justify-between gap-4">
                 <div>
-                  <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Quick Action</div>
-                  <h3 class="text-lg font-bold text-gray-900 mt-2">Solo Match with Smart AI</h3>
-                  <p class="text-xs text-gray-500 mt-1">Adaptive Bot Intelligence • 4 Players</p>
+                  <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Reminders</div>
+                  <h3 class="text-lg font-extrabold text-slate-900 mt-2.5 leading-snug">Meeting with Arc Company</h3>
+                  <p class="text-xs text-slate-400 mt-1.5 font-medium">Time : 02.00 pm - 04.00 pm</p>
                 </div>
 
-                <div class="p-3 rounded-2xl bg-gray-50 border border-gray-200/80 flex items-center gap-3">
-                  <span class="text-xl">🤖</span>
-                  <div class="text-xs">
-                    <span class="font-bold text-gray-800">Master Level Bots</span>
-                    <p class="text-[11px] text-gray-500 font-mono">Safe-zone & capture heuristics</p>
-                  </div>
-                </div>
-
-                <button id="btn-quick-start-match" class="bento-btn-primary w-full py-3">
-                  <span>📹</span>
-                  <span>Start Match</span>
+                <button id="btn-start-meeting" class="bento-btn-primary w-full py-3.5 mt-auto">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                  <span>Start Meeting</span>
                 </button>
               </div>
 
-              <!-- Game Modes Selection Card (4 cols) -->
-              <div class="bento-card p-5 md:col-span-4 flex flex-col justify-between gap-3" id="modes-section">
+              <!-- Card C: Project Tasks List (4 cols) -->
+              <div class="bento-card p-6 md:col-span-4 flex flex-col justify-between gap-3.5" id="projects-section">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-900 tracking-tight">Game Modes</span>
-                  <span class="text-[10px] font-bold text-gray-500 border border-gray-200 px-2 py-0.5 rounded-md">+ Select</span>
+                  <span class="text-sm font-bold text-slate-900 tracking-tight">Project</span>
+                  <button class="text-xs font-bold text-slate-600 border border-slate-200 px-2.5 py-0.5 rounded-full hover:bg-slate-50 transition-colors">+ New</button>
                 </div>
 
-                <div class="space-y-2 text-xs">
-                  <!-- Mode 1: Solo AI -->
-                  <div class="p-2.5 rounded-xl border border-gray-200 hover:border-emerald-600 bg-gray-50/50 flex items-center justify-between cursor-pointer mode-picker-item" data-mode="vs_ai">
-                    <div class="flex items-center gap-2.5">
-                      <span class="text-base">🤖</span>
-                      <div>
-                        <div class="font-bold text-gray-900">Solo vs Smart AI</div>
-                        <div class="text-[10px] text-gray-500">2 - 4 Players with bots</div>
-                      </div>
+                <div class="space-y-3 text-xs">
+                  <!-- Item 1 -->
+                  <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors project-task-row" data-task="api">
+                    <span class="text-base text-blue-500">🪄</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-bold text-slate-800 truncate">Develop API Endpoints</div>
+                      <div class="text-[10px] text-slate-400 font-medium">Due date: Nov 26, 2024</div>
                     </div>
-                    <button class="px-2.5 py-1 rounded-lg bg-emerald-800 text-white font-bold text-[11px]">Play</button>
                   </div>
 
-                  <!-- Mode 2: Pass and Play -->
-                  <div class="p-2.5 rounded-xl border border-gray-200 hover:border-emerald-600 bg-gray-50/50 flex items-center justify-between cursor-pointer mode-picker-item" data-mode="pass_and_play">
-                    <div class="flex items-center gap-2.5">
-                      <span class="text-base">👥</span>
-                      <div>
-                        <div class="font-bold text-gray-900">Pass and Play</div>
-                        <div class="text-[10px] text-gray-500">Local multiplayer on screen</div>
-                      </div>
+                  <!-- Item 2 -->
+                  <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors project-task-row" data-task="onboarding">
+                    <span class="text-base text-emerald-500">🟢</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-bold text-slate-800 truncate">Onboarding Flow</div>
+                      <div class="text-[10px] text-slate-400 font-medium">Due date: Nov 28, 2024</div>
                     </div>
-                    <button class="px-2.5 py-1 rounded-lg bg-emerald-800 text-white font-bold text-[11px]">Play</button>
                   </div>
 
-                  <!-- Mode 3: Online P2P -->
-                  <div class="p-2.5 rounded-xl border border-gray-200 hover:border-emerald-600 bg-gray-50/50 flex items-center justify-between cursor-pointer mode-picker-item" data-mode="online_room">
-                    <div class="flex items-center gap-2.5">
-                      <span class="text-base">🌐</span>
-                      <div>
-                        <div class="font-bold text-gray-900">Online P2P Match</div>
-                        <div class="text-[10px] text-gray-500">Real players only • Zero lag</div>
-                      </div>
+                  <!-- Item 3 -->
+                  <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors project-task-row" data-task="dashboard">
+                    <span class="text-base text-amber-500">✨</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-bold text-slate-800 truncate">Build Dashboard</div>
+                      <div class="text-[10px] text-slate-400 font-medium">Due date: Nov 30, 2024</div>
                     </div>
-                    <button class="px-2.5 py-1 rounded-lg bg-emerald-800 text-white font-bold text-[11px]">Host</button>
+                  </div>
+
+                  <!-- Item 4 -->
+                  <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors project-task-row" data-task="optimize">
+                    <span class="text-base text-orange-500">⚡</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-bold text-slate-800 truncate">Optimize Page Load</div>
+                      <div class="text-[10px] text-slate-400 font-medium">Due date: Dec 5, 2024</div>
+                    </div>
+                  </div>
+
+                  <!-- Item 5 -->
+                  <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors project-task-row" data-task="testing">
+                    <span class="text-base text-purple-500">🎯</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="font-bold text-slate-800 truncate">Cross-Browser Testing</div>
+                      <div class="text-[10px] text-slate-400 font-medium">Due date: Dec 6, 2024</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- ROW 3: BOTTOM BENTO ROW (Team Collaboration, Project Progress, Time Tracker) -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4" id="squad-section">
-              <!-- Team / Opponent Collaboration Card (5 cols) -->
-              <div class="bento-card p-5 md:col-span-5 flex flex-col justify-between gap-3">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-5" id="team-section">
+              <!-- Team Collaboration (5 cols) -->
+              <div class="bento-card p-6 md:col-span-5 flex flex-col justify-between gap-4">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-900 tracking-tight">Active Squad & Bots</span>
-                  <span class="text-[10px] font-bold text-gray-500 border border-gray-200 px-2 py-0.5 rounded-md">+ Add Bot</span>
+                  <span class="text-sm font-bold text-slate-900 tracking-tight">Team Collaboration</span>
+                  <button class="text-xs font-bold text-slate-600 border border-slate-200 px-3 py-1 rounded-full hover:bg-slate-50 transition-colors">+ Add Member</button>
                 </div>
 
-                <div class="space-y-2.5 text-xs">
-                  <!-- Player 1 -->
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                      <div class="w-7 h-7 rounded-full bg-rose-500/20 text-rose-600 flex items-center justify-center font-bold text-xs">🔴</div>
-                      <div>
-                        <div class="font-bold text-gray-900 text-xs">Crimson Champion</div>
-                        <div class="text-[10px] text-gray-400 font-mono">Working on Base Defense</div>
+                <div class="space-y-3.5 text-xs">
+                  <!-- Member 1 -->
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-sm shrink-0">👩‍💼</div>
+                      <div class="truncate">
+                        <div class="font-bold text-slate-900 truncate">Alexandra Deff</div>
+                        <div class="text-[10.5px] text-slate-400 truncate">Working on <span class="font-medium text-slate-600">Github Project Repository</span></div>
                       </div>
                     </div>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Completed</span>
+                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 shrink-0">Completed</span>
                   </div>
 
-                  <!-- Player 2 -->
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                      <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold text-xs">🟢</div>
-                      <div>
-                        <div class="font-bold text-gray-900 text-xs">Emerald Bot</div>
-                        <div class="text-[10px] text-gray-400 font-mono">Intercepting Safe Tiles</div>
+                  <!-- Member 2 -->
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-sm shrink-0">👨‍💻</div>
+                      <div class="truncate">
+                        <div class="font-bold text-slate-900 truncate">Edwin Adenike</div>
+                        <div class="text-[10.5px] text-slate-400 truncate">Working on <span class="font-medium text-slate-600">Integrate User Authentication System</span></div>
                       </div>
                     </div>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">In Progress</span>
+                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200/60 shrink-0">In Progress</span>
                   </div>
 
-                  <!-- Player 3 -->
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                      <div class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center font-bold text-xs">🟡</div>
-                      <div>
-                        <div class="font-bold text-gray-900 text-xs">Golden Striker</div>
-                        <div class="text-[10px] text-gray-400 font-mono">Collecting Bonus Rolls</div>
+                  <!-- Member 3 -->
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm shrink-0">🧑‍🎨</div>
+                      <div class="truncate">
+                        <div class="font-bold text-slate-900 truncate">Isaac Oluwatemilorun</div>
+                        <div class="text-[10.5px] text-slate-400 truncate">Working on <span class="font-medium text-slate-600">Develop Search and Filter Functionality</span></div>
                       </div>
                     </div>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">Pending</span>
+                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200/60 shrink-0">Pending</span>
                   </div>
 
-                  <!-- Player 4 -->
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                      <div class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-600 flex items-center justify-center font-bold text-xs">🔵</div>
-                      <div>
-                        <div class="font-bold text-gray-900 text-xs">Royal Guest</div>
-                        <div class="text-[10px] text-gray-400 font-mono">Realtime Peer Connection</div>
+                  <!-- Member 4 -->
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-sm shrink-0">👨‍🚀</div>
+                      <div class="truncate">
+                        <div class="font-bold text-slate-900 truncate">David Oshodi</div>
+                        <div class="text-[10.5px] text-slate-400 truncate">Working on <span class="font-medium text-slate-600">Responsive Layout for Homepage</span></div>
                       </div>
                     </div>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">In Progress</span>
+                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200/60 shrink-0">In Progress</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Project Progress Semi-Circle Donut Card (4 cols) -->
-              <div class="bento-card p-5 md:col-span-4 flex flex-col justify-between gap-2">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-gray-900 tracking-tight">Project Progress</span>
-                  <span class="text-[11px] text-gray-400 font-mono">Overall</span>
-                </div>
+              <!-- Project Progress (4 cols) -->
+              <div class="bento-card p-6 md:col-span-4 flex flex-col justify-between gap-2">
+                <div class="text-sm font-bold text-slate-900 tracking-tight">Project Progress</div>
 
                 <!-- Semi-Circle Gauge SVG -->
-                <div class="flex flex-col items-center justify-center my-auto">
-                  <div class="relative w-36 h-20 flex items-end justify-center overflow-hidden">
-                    <svg viewBox="0 0 100 55" class="w-36 h-20">
+                <div class="flex flex-col items-center justify-center my-auto pt-2">
+                  <div class="relative w-44 h-24 flex items-end justify-center overflow-hidden">
+                    <svg viewBox="0 0 100 55" class="w-44 h-24">
                       <!-- Background Track -->
-                      <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#f1f5f9" stroke-width="12" stroke-linecap="round" />
+                      <path d="M 12 50 A 38 38 0 0 1 88 50" fill="none" stroke="#f1f5f9" stroke-width="11" stroke-linecap="round" />
                       <!-- Completed Segment (Deep Emerald) -->
-                      <path d="M 10 50 A 40 40 0 0 1 60 12" fill="none" stroke="#064e3b" stroke-width="12" stroke-linecap="round" />
+                      <path d="M 12 50 A 38 38 0 0 1 58 12" fill="none" stroke="#0f392b" stroke-width="11" stroke-linecap="round" />
                       <!-- In Progress Segment (Mint) -->
-                      <path d="M 60 12 A 40 40 0 0 1 78 26" fill="none" stroke="#34d399" stroke-width="12" stroke-linecap="round" />
+                      <path d="M 58 12 A 38 38 0 0 1 76 26" fill="none" stroke="#34d399" stroke-width="11" stroke-linecap="round" />
                       <!-- Pending Segment (Gray Striped) -->
-                      <path d="M 78 26 A 40 40 0 0 1 90 50" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round" />
+                      <path d="M 76 26 A 38 38 0 0 1 88 50" fill="none" stroke="#cbd5e1" stroke-width="11" stroke-linecap="round" />
                     </svg>
                   </div>
-                  <div class="text-center mt-2">
-                    <div class="text-2xl font-black text-gray-900 font-mono leading-none">${winRate}%</div>
-                    <div class="text-[11px] text-gray-400 font-medium mt-0.5">Project Ended</div>
+                  <div class="text-center mt-1">
+                    <div class="text-3xl font-extrabold text-slate-900 font-mono leading-none">41%</div>
+                    <div class="text-xs text-slate-400 font-medium mt-1">Project Ended</div>
                   </div>
                 </div>
 
                 <!-- Legend -->
-                <div class="flex items-center justify-center gap-3 pt-2 border-t border-gray-100 text-[10px] text-gray-600 font-medium">
-                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#064e3b]"></span> Completed</span>
-                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#34d399]"></span> In Progress</span>
-                  <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#cbd5e1]"></span> Pending</span>
+                <div class="flex items-center justify-center gap-4 pt-3 border-t border-slate-100 text-[10.5px] text-slate-600 font-medium">
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#0f392b]"></span> Completed</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#34d399]"></span> In Progress</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#cbd5e1]"></span> Pending</span>
                 </div>
               </div>
 
-              <!-- Time Tracker Card with Wavy Texture (3 cols) -->
-              <div class="wavy-time-card p-5 md:col-span-3 flex flex-col justify-between gap-4">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold text-white uppercase tracking-wider">Time Tracker</span>
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                </div>
+              <!-- Time Tracker Card with Wavy 3D Texture (3 cols) -->
+              <div class="wavy-time-card p-6 md:col-span-3 flex flex-col justify-between gap-4">
+                <div class="text-sm font-semibold text-white/90">Time Tracker</div>
 
-                <div class="my-auto text-center">
-                  <div id="time-tracker-clock" class="text-3xl sm:text-4xl font-extrabold font-mono tracking-widest text-white drop-shadow-md">
+                <div class="my-auto text-center py-2">
+                  <div id="time-tracker-clock" class="text-4xl font-extrabold font-mono tracking-wider text-white drop-shadow-md">
                     ${this.formatTime(this.timerSeconds)}
                   </div>
-                  <div class="text-[10px] text-emerald-200/80 font-mono mt-1">Live Turn Elapsed Time</div>
                 </div>
 
                 <div class="flex items-center justify-center gap-3 pt-2">
-                  <button id="timer-toggle-btn" class="w-10 h-10 rounded-full bg-white text-gray-900 flex items-center justify-center text-sm font-black shadow-md hover:scale-105 active:scale-95 transition-all" title="Pause/Play Timer">
+                  <button id="timer-toggle-btn" class="w-11 h-11 rounded-full bg-white text-slate-900 flex items-center justify-center text-sm font-black shadow-lg hover:scale-105 active:scale-95 transition-all" title="Pause/Play Timer">
                     ${this.isTimerRunning ? '⏸' : '▶'}
                   </button>
-                  <button id="timer-reset-btn" class="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center text-sm font-black shadow-md hover:scale-105 active:scale-95 transition-all" title="Reset Timer">
+                  <button id="timer-reset-btn" class="w-11 h-11 rounded-full bg-[#dc2626] text-white flex items-center justify-center text-sm font-black shadow-lg hover:scale-105 active:scale-95 transition-all" title="Reset Timer">
                     ⏹
                   </button>
                 </div>
@@ -521,10 +519,10 @@ export class DashboardView {
             </div>
 
             <!-- BOARD THEMES SECTION -->
-            <div class="bento-card p-5" id="theme-section">
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-bold text-gray-900 tracking-tight">Board Theme Collection</span>
-                <span class="text-[11px] text-gray-500 font-mono">Custom Visual Surfaces</span>
+            <div class="bento-card p-6" id="theme-section">
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-bold text-slate-900 tracking-tight">Board Theme Surface</span>
+                <span class="text-xs text-slate-400 font-mono">Custom Visual Surfaces</span>
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 ${[
@@ -537,13 +535,13 @@ export class DashboardView {
                     (th) => `
                   <button data-theme="${th.id}" class="theme-select-btn p-3 rounded-2xl text-left border transition-all flex items-center gap-3 ${
                       this.selectedTheme === th.id
-                        ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
-                        : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-gray-300'
+                        ? 'bg-[#0f392b] text-white border-[#0f392b] shadow-md'
+                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300'
                     }">
                     <span class="text-xl">${th.icon}</span>
                     <div>
                       <div class="text-xs font-bold">${th.name}</div>
-                      <div class="text-[10px] ${this.selectedTheme === th.id ? 'text-emerald-200' : 'text-gray-400'} font-mono">Surface</div>
+                      <div class="text-[10px] ${this.selectedTheme === th.id ? 'text-emerald-200' : 'text-slate-400'} font-mono">Surface</div>
                     </div>
                   </button>
                 `
@@ -553,30 +551,30 @@ export class DashboardView {
             </div>
 
             <!-- OFFICIAL RULES ACCORDION -->
-            <div class="bento-card p-5" id="rules-section">
+            <div class="bento-card p-6" id="rules-section">
               <div class="flex items-center justify-between cursor-pointer" id="rules-toggle-header">
-                <div class="flex items-center gap-2 text-xs font-bold text-gray-900">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-900">
                   <span>📖</span>
                   <span>Official Rules and Gameplay Guide</span>
                 </div>
-                <span id="rules-toggle-icon" class="text-xs text-gray-400 font-bold">▼</span>
+                <span id="rules-toggle-icon" class="text-xs text-slate-400 font-bold">▼</span>
               </div>
 
-              <div id="rules-content" class="hidden mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs text-gray-600">
-                <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200/80">
-                  <strong class="text-gray-900 block mb-1">1. Entering Board</strong>
+              <div id="rules-content" class="hidden mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs text-slate-600">
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                  <strong class="text-slate-900 block mb-1">1. Entering Board</strong>
                   Roll a 6 to move any token from your home yard to the starting tile.
                 </div>
-                <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200/80">
-                  <strong class="text-gray-900 block mb-1">2. Safe Star Tiles</strong>
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                  <strong class="text-slate-900 block mb-1">2. Safe Star Tiles</strong>
                   Tiles marked with purple stars (★) are safe zones where tokens cannot be captured.
                 </div>
-                <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200/80">
-                  <strong class="text-gray-900 block mb-1">3. Knockouts & Extra Rolls</strong>
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                  <strong class="text-slate-900 block mb-1">3. Knockouts & Extra Rolls</strong>
                   Landing on an opponent sends them back to their yard and awards an extra roll!
                 </div>
-                <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200/80">
-                  <strong class="text-gray-900 block mb-1">4. 3 Consecutive Sixes</strong>
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+                  <strong class="text-slate-900 block mb-1">4. 3 Consecutive Sixes</strong>
                   Rolling three 6s in a row passes your turn immediately to prevent runaway turns.
                 </div>
               </div>
@@ -590,24 +588,18 @@ export class DashboardView {
   }
 
   private bindEvents(): void {
-    // Quick match launcher button
-    document.getElementById('btn-quick-start-match')?.addEventListener('click', () => {
+    // Start Meeting / Quick launch button
+    document.getElementById('btn-start-meeting')?.addEventListener('click', () => {
       const config = this.buildMatchConfig('vs_ai', 4, 'strategic');
       if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
     });
 
-    // Sidebar quick play button
-    document.getElementById('btn-sidebar-quick-play')?.addEventListener('click', () => {
-      const config = this.buildMatchConfig('vs_ai', 4, 'strategic');
-      if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
-    });
-
-    // Hero Host Room button
+    // Hero Add Project / Host Room
     document.getElementById('btn-hero-host-room')?.addEventListener('click', () => {
       if (this.onHostRoomCallback) this.onHostRoomCallback('Host (You)');
     });
 
-    // Hero Join Room button
+    // Hero Import Data / Join Room
     document.getElementById('btn-hero-join-room')?.addEventListener('click', () => {
       const input = document.getElementById('input-top-room-code') as HTMLInputElement;
       const code = input ? input.value.trim().toUpperCase() : '';
@@ -618,17 +610,6 @@ export class DashboardView {
         if (promptCode && promptCode.trim().length === 6) {
           if (this.onJoinRoomCallback) this.onJoinRoomCallback(promptCode.trim().toUpperCase(), 'Guest');
         }
-      }
-    });
-
-    // Header Quick Join button
-    document.getElementById('btn-quick-join-header')?.addEventListener('click', () => {
-      const input = document.getElementById('input-top-room-code') as HTMLInputElement;
-      const code = input ? input.value.trim().toUpperCase() : '';
-      if (code.length === 6) {
-        if (this.onJoinRoomCallback) this.onJoinRoomCallback(code, 'Guest');
-      } else {
-        alert('Please enter a valid 6-character room code in the search box.');
       }
     });
 
@@ -643,20 +624,41 @@ export class DashboardView {
       }
     });
 
-    // Mode picker items
-    document.querySelectorAll('.mode-picker-item').forEach((item) => {
-      item.addEventListener('click', (e) => {
-        const mode = (e.currentTarget as HTMLElement).dataset.mode as GameMode;
-        if (mode === 'vs_ai') {
+    // Project Task rows click to launch game modes
+    document.querySelectorAll('.project-task-row').forEach((row) => {
+      row.addEventListener('click', (e) => {
+        const task = (e.currentTarget as HTMLElement).dataset.task;
+        if (task === 'api' || task === 'testing') {
           const config = this.buildMatchConfig('vs_ai', 4, 'strategic');
           if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
-        } else if (mode === 'pass_and_play') {
+        } else if (task === 'onboarding' || task === 'optimize') {
           const config = this.buildMatchConfig('pass_and_play', 4);
           if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
-        } else if (mode === 'online_room') {
+        } else if (task === 'dashboard') {
           if (this.onHostRoomCallback) this.onHostRoomCallback('Host (You)');
         }
       });
+    });
+
+    // KPI cards click to launch game modes
+    document.getElementById('kpi-card-1')?.addEventListener('click', () => {
+      const config = this.buildMatchConfig('vs_ai', 4, 'strategic');
+      if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
+    });
+
+    document.getElementById('kpi-card-2')?.addEventListener('click', () => {
+      const config = this.buildMatchConfig('pass_and_play', 4);
+      if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
+    });
+
+    document.getElementById('kpi-card-3')?.addEventListener('click', () => {
+      if (this.onHostRoomCallback) this.onHostRoomCallback('Host (You)');
+    });
+
+    // Sidebar download button
+    document.getElementById('btn-sidebar-download')?.addEventListener('click', () => {
+      const config = this.buildMatchConfig('vs_ai', 4, 'strategic');
+      if (this.onLaunchGameCallback) this.onLaunchGameCallback(config);
     });
 
     // Theme selector buttons
@@ -668,8 +670,8 @@ export class DashboardView {
           const isSelected = (b as HTMLElement).dataset.theme === theme;
           b.className = `theme-select-btn p-3 rounded-2xl text-left border transition-all flex items-center gap-3 ${
             isSelected
-              ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
-              : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-gray-300'
+              ? 'bg-[#0f392b] text-white border-[#0f392b] shadow-md'
+              : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-slate-300'
           }`;
         });
         if (this.onThemeChangeCallback) this.onThemeChangeCallback(theme);
@@ -735,3 +737,4 @@ export class DashboardView {
     };
   }
 }
+
